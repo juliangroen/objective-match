@@ -1,5 +1,4 @@
 const csvFileInput = document.querySelector('#csv-file');
-const csvFile = csvFileInput.files[0];
 const itemsContainer = document.querySelector('#item-container');
 
 function readFile(file) {
@@ -11,14 +10,6 @@ function readFile(file) {
         reader.readAsText(file);
     });
 }
-
-csvFileInput.addEventListener('change', (e) => {
-    readFile(csvFile).then((result) => {
-        const itemSet = csvToItemSet(result);
-        console.log(itemSet);
-        createItemElements(itemSet);
-    });
-});
 
 function csvToItemSet(data) {
     const lines = data.split('\n');
@@ -40,11 +31,22 @@ function csvToItemSet(data) {
 
 function createItemElements(itemsArray) {
     itemsContainer.innerHTML = '';
-    for (item of itemsArray) {
+    for (const [index, item] of itemsArray.entries()) {
         const frag = new DocumentFragment();
         const el = document.createElement('div');
+        el.style.fontSize = '1.6rem';
+        //el.innerHTML = `${index}: ${item}`;
         el.innerHTML = item;
         frag.appendChild(el);
         itemsContainer.appendChild(frag);
     }
 }
+
+csvFileInput.addEventListener('change', (e) => {
+    const csvFile = e.target.files[0];
+    console.log(csvFile);
+    readFile(csvFile).then((result) => {
+        const itemSet = csvToItemSet(result);
+        createItemElements(itemSet);
+    });
+});
