@@ -16,13 +16,17 @@ function csvToItemSet(data) {
     lines.shift();
     const items = lines
         .map((line) => {
-            const values = line.split(',');
-            const array = values[5].split('-');
-            const first = array[0];
-            const second = array[1].split('.')[0];
-            const item = `${first}-${second}`;
-            if (!(item[0] === 'T')) {
-                return item;
+            try {
+                const values = line.split(',');
+                const array = values[5].split('-');
+                const first = array[0];
+                const second = array[1].split('.')[0];
+                const item = `${first}-${second}`;
+                if (!(item[0] === 'T')) {
+                    return item;
+                }
+            } catch {
+                return undefined;
             }
         })
         .filter((item) => item !== undefined);
@@ -34,8 +38,6 @@ function createItemElements(itemsArray) {
     for (const [index, item] of itemsArray.entries()) {
         const frag = new DocumentFragment();
         const el = document.createElement('div');
-        el.style.fontSize = '1.6rem';
-        //el.innerHTML = `${index}: ${item}`;
         el.innerHTML = item;
         frag.appendChild(el);
         itemsContainer.appendChild(frag);
