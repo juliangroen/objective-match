@@ -1,5 +1,11 @@
 const csvFileInput = document.querySelector('#csv-file');
+const csvUploadLabel = document.querySelector('#csv-upload-label');
+const dataSection = document.querySelector('#data-section');
 const itemsContainer = document.querySelector('#item-container');
+const fileName = document.querySelector('#file-name');
+const fileError = document.querySelector('#file-error');
+const reloadButton = document.querySelector('#reload-button');
+const copyTextButton = document.querySelector('#copy-text-button');
 
 function readFile(file) {
     return new Promise((resolve, reject) => {
@@ -50,10 +56,35 @@ function createItemElements(itemsArray) {
 }
 
 csvFileInput.addEventListener('change', (e) => {
+    const types = ['text/csv'];
     const csvFile = e.target.files[0];
-    console.log(csvFile);
-    readFile(csvFile).then((result) => {
-        const itemSet = csvToItemSet(result);
-        createItemElements(itemSet);
-    });
+    fileName.innerHTML = csvFile.name;
+    fileName.classList.toggle('hidden');
+    if (types.includes(csvFile.type)) {
+        readFile(csvFile).then((result) => {
+            const itemSet = csvToItemSet(result);
+            createItemElements(itemSet);
+        });
+        dataSection.classList.toggle('hidden');
+    } else {
+        fileError.classList.toggle('hidden');
+        fileError.innerHTML = `Error: Filetype is ${csvFile.type}, please upload a CSV file.`;
+        reloadButton.classList.toggle('hidden');
+        csvUploadLabel.classList.toggle('hidden');
+    }
+});
+
+reloadButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.reload(true);
+});
+
+copyTextButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.selectNodeContents(itemsContainer);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    document.execCommand('copy');
 });
