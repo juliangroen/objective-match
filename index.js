@@ -12,25 +12,30 @@ function readFile(file) {
 }
 
 function csvToItemSet(data) {
-    const lines = data.split('\n');
-    lines.shift();
-    const items = lines
-        .map((line) => {
-            try {
-                const values = line.split(',');
-                const array = values[5].split('-');
-                const first = array[0];
-                const second = array[1].split('.')[0];
-                const item = `${first}-${second}`;
-                if (!(item[0] === 'T')) {
-                    return item;
+    try {
+        const lines = data.split('\n');
+        const items = lines
+            .map((line) => {
+                try {
+                    const values = line.split(',');
+                    const array = values[5].split('-');
+                    const first = array[0];
+                    const second = array[1].split('.')[0];
+                    const item = `${first}-${second}`;
+                    if (!(item[0] === 'T')) {
+                        return item;
+                    }
+                } catch {
+                    return undefined;
                 }
-            } catch {
-                return undefined;
-            }
-        })
-        .filter((item) => item !== undefined);
-    return [...new Set(items)];
+            })
+            .filter((item) => item !== undefined);
+        const itemSet = [...new Set(items)];
+
+        return itemSet.length > 0 ? itemSet : ['Unable to find any items, please check your file and try again.'];
+    } catch (err) {
+        return ['Unable to parse data, please check your file and try again.', 'err'];
+    }
 }
 
 function createItemElements(itemsArray) {
