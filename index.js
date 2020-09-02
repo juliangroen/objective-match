@@ -56,7 +56,7 @@ function createItemElements(itemsArray) {
 }
 
 csvFileInput.addEventListener('change', (e) => {
-    const types = ['text/csv'];
+    const types = ['text/csv', 'application/vnd.ms-excel'];
     const csvFile = e.target.files[0];
     fileName.innerHTML = csvFile.name;
     fileName.classList.toggle('hidden');
