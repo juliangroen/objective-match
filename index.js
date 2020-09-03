@@ -1,3 +1,8 @@
+///////////////////////
+// ELEMENT SELECTORS //
+///////////////////////
+
+// extractor script elements
 const csvFileInput = document.querySelector('#csv-file');
 const csvUploadLabel = document.querySelector('#csv-upload-label');
 const dataSection = document.querySelector('#data-section');
@@ -8,8 +13,21 @@ const reloadButton = document.querySelector('#reload-button');
 const copyTextButton = document.querySelector('#copy-text-button');
 const extractorForm = document.querySelector('#extractor-form');
 const extractorToggle = document.querySelector('#extractor-toggle');
+
+// match script elements
+const matchCsvFileInput = document.querySelector('#match-csv-file');
+const matchCsvUploadLabel = document.querySelector('#match-csv-upload-label');
+const matchCsvFileName = document.querySelector('#match-csv-file-name');
+const matchCsvFileError = document.querySelector('#match-csv-file-error');
+const matchHtmlFileInput = document.querySelector('#match-html-file');
+const matchHtmlUploadLabel = document.querySelector('#match-html-upload-label');
+const matchHtmlFileName = document.querySelector('#match-html-file-name');
+const matchHtmlFileError = document.querySelector('#match-html-file-error');
+const matchDataSection = document.querySelector('#match-data-section');
 const matchForm = document.querySelector('#match-form');
 const matchToggle = document.querySelector('#match-toggle');
+const matchSubmitButton = document.querySelector('#match-submit-button');
+const matchReloadButton = document.querySelector('#match-reload-button');
 
 function readFile(file) {
     return new Promise((resolve, reject) => {
@@ -59,8 +77,22 @@ function createItemElements(itemsArray) {
     }
 }
 
+function handleToggle(event) {
+    const toggle = event.target;
+    const circle = event.target.children[0];
+    toggle.classList.toggle('bg-blue-600');
+    toggle.classList.toggle('bg-gray-400');
+    toggle.dataset.toggle === '0' ? (toggle.dataset.toggle = '1') : (toggle.dataset.toggle = '0');
+    circle.classList.toggle('right-0');
+}
+
+//////////////////////
+// EXTRACTOR EVENTS //
+//////////////////////
+
+// extractor csv file event
 csvFileInput.addEventListener('change', (e) => {
-    const types = ['text/csv'];
+    const types = ['text/csv', 'application/vnd.ms-excel'];
     const csvFile = e.target.files[0];
     fileName.innerHTML = csvFile.name;
     fileName.classList.toggle('hidden');
@@ -78,20 +110,13 @@ csvFileInput.addEventListener('change', (e) => {
     }
 });
 
-function handleToggle(event) {
-    const toggle = event.target;
-    const circle = event.target.children[0];
-    toggle.classList.toggle('bg-blue-600');
-    toggle.classList.toggle('bg-gray-400');
-    toggle.dataset.toggle === '0' ? (toggle.dataset.toggle = '1') : (toggle.dataset.toggle = '0');
-    circle.classList.toggle('right-0');
-}
-
+// extractor reload button
 reloadButton.addEventListener('click', (e) => {
     e.preventDefault();
     window.location.reload(true);
 });
 
+// extractor copy text button
 copyTextButton.addEventListener('click', (e) => {
     e.preventDefault();
     const selection = window.getSelection();
@@ -101,6 +126,58 @@ copyTextButton.addEventListener('click', (e) => {
     selection.addRange(range);
     document.execCommand('copy');
 });
+
+//////////////////
+// MATCH EVENTS //
+//////////////////
+
+// match csv file event
+matchCsvFileInput.addEventListener('change', (e) => {
+    const types = ['text/csv', 'application/vnd.ms-excel'];
+    const csvFile = e.target.files[0];
+    matchCsvFileName.innerHTML = csvFile.name;
+    matchCsvFileName.classList.toggle('hidden');
+    if (types.includes(csvFile.type)) {
+        readFile(csvFile).then((result) => {
+            console.log('match CSV file loaded!');
+        });
+    } else {
+        matchCsvFileError.classList.toggle('hidden');
+        matchCsvFileError.innerHTML = `Error: Filetype is ${csvFile.type}, please upload a CSV file.`;
+        matchReloadButton.classList.toggle('hidden');
+        matchCsvUploadLabel.classList.toggle('hidden');
+    }
+});
+
+// match html file event
+matchHtmlFileInput.addEventListener('change', (e) => {
+    const types = ['text/html'];
+    const htmlFile = e.target.files[0];
+    matchHtmlFileName.innerHTML = htmlFile.name;
+    matchHtmlFileName.classList.toggle('hidden');
+    if (types.includes(htmlFile.type)) {
+        readFile(htmlFile).then((result) => {
+            console.log('match HTML file loaded!');
+        });
+    } else {
+        matchHtmlFileError.classList.toggle('hidden');
+        matchHtmlFileError.innerHTML = `Error: Filetype is ${htmlFile.type}, please upload a CSV file.`;
+        matchReloadButton.classList.toggle('hidden');
+        matchHtmlUploadLabel.classList.toggle('hidden');
+    }
+});
+
+// match submit button event
+matchSubmitButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (matchCsvFileInput.files[0] && matchHtmlFileInput.files[0]) {
+        matchDataSection.classList.toggle('hidden');
+    }
+});
+
+////////////////////
+// TOGGLE BUTTONS //
+////////////////////
 
 extractorToggle.addEventListener('click', (e) => {
     e.preventDefault();

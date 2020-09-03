@@ -7,7 +7,7 @@
         <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
     </head>
     <body class="bg-blue-400 p-4">
-        <header class="container max-w-xl mx-auto">
+        <section class="container max-w-xl mx-auto">
             <!-- script toggles -->
             <section class="flex flex-col bg-white rounded-lg p-4 pb-0 mb-4">
                 <div class="flex flex-row mb-4" id="extractor-container">
@@ -59,50 +59,74 @@
             <!-- / extractor form -->
 
             <!-- matcher form -->
-            <form class="hidden bg-white rounded-lg flex flex-col p-4 pb-0 mb-4" id="match-form">
-                <!-- csv -->
-                <div class="flex flex-col" id="match-csv">
-                    <label
-                        class="bg-blue-800 text-gray-100 rounded-lg text-lg text-center cursor-pointer p-2 mb-4"
-                        for="match-csv-file"
-                        id="match-csv-upload-label"
-                        >Upload a CSV File</label
-                    >
-                    <input class="hidden" type="file" id="match-csv-file" accept="text/csv" />
-                    <div class="hidden text-green-600 text-center mb-4" id="match-csv-file-name"></div>
-                    <div class="hidden text-red-600 text-center mb-4" id="match-csv-file-error"></div>
-                </div>
-                <!-- / csv -->
+            <form class="hidden flex flex-col bg-white rounded-lg p-4 pb-0 mb-4" id="match-form">
+                <div class="flex flex-row">
+                    <!-- csv -->
+                    <div class="flex flex-col w-1/2 mr-4" id="match-csv">
+                        <label
+                            class="bg-blue-800 text-gray-100 rounded-lg text-lg text-center cursor-pointer p-2 mb-4"
+                            for="match-csv-file"
+                            id="match-csv-upload-label"
+                            >Upload a CSV File</label
+                        >
+                        <input class="hidden" type="file" id="match-csv-file" accept="text/csv" />
+                        <div class="hidden text-green-600 text-center mb-4" id="match-csv-file-name"></div>
+                        <div class="hidden text-red-600 text-center mb-4" id="match-csv-file-error"></div>
+                    </div>
+                    <!-- / csv -->
 
-                <!-- html -->
-                <div class="flex flex-col" id="match-html">
-                    <label
-                        class="bg-blue-800 text-gray-100 rounded-lg text-lg text-center cursor-pointer p-2 mb-4"
-                        for="match-html-file"
-                        id="match-html-upload-label"
-                        >Upload a HTML File</label
-                    >
-                    <input class="hidden" type="file" id="match-html-file" accept="text/html" />
-                    <div class="hidden text-green-600 text-center mb-4" id="match-html-file-name"></div>
-                    <div class="hidden text-red-600 text-center mb-4" id="match-html-file-error"></div>
+                    <!-- html -->
+                    <div class="flex flex-col w-1/2" id="match-html">
+                        <label
+                            class="bg-blue-800 text-gray-100 rounded-lg text-lg text-center cursor-pointer p-2 mb-4"
+                            for="match-html-file"
+                            id="match-html-upload-label"
+                            >Upload a HTML File</label
+                        >
+                        <input class="hidden" type="file" id="match-html-file" accept="text/html" />
+                        <div class="hidden text-green-600 text-center mb-4" id="match-html-file-name"></div>
+                        <div class="hidden text-red-600 text-center mb-4" id="match-html-file-error"></div>
+                    </div>
+                    <!-- / html -->
                 </div>
-                <!-- / html -->
 
-                <button class="hidden bg-blue-800 text-gray-100 rounded-lg p-4 mb-4" id="match-reload-button">
+                <!-- submit -->
+                <button
+                    class="bg-blue-800 text-gray-100 rounded-lg text-lg text-center cursor-pointer p-2 mb-4"
+                    type="button"
+                    id="match-submit-button"
+                >
+                    Submit
+                </button>
+                <!-- / submit -->
+
+                <button class="hidden bg-blue-800 text-gray-100 rounded-lg p-2 mb-4" id="match-reload-button">
                     Reload Page
                 </button>
             </form>
             <!-- / matcher form -->
 
             <!-- / file upload forms -->
-        </header>
+        </section>
+
+        <!-- extractor data section -->
         <section class="hidden container max-w-xl bg-white rounded-lg mx-auto p-4" id="data-section">
             <header>
                 <h1 class="text-blue-800 text-2xl font-bold mb-4 text-center">Data</h1>
             </header>
             <button class="bg-blue-200 text-blue-800 rounded-lg p-2 mb-4" id="copy-text-button">Copy Text</button>
-            <div class="" id="item-container"></div>
+            <div id="item-container"></div>
         </section>
+        <!-- / extractor script data section -->
+
+        <!-- match script data section -->
+        <section class="hidden container max-w-xl bg-white rounded-lg mx-auto p-4" id="match-data-section">
+            <header>
+                <h1 class="text-blue-800 text-2xl font-bold mb-4 text-center">Match Data</h1>
+            </header>
+            <div class="text-center" id="match-data-container">Sorry this script is not yet functioning.</div>
+        </section>
+        <!-- / match script data section -->
         <script src="index.js"></script>
     </body>
 </html>
