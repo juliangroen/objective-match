@@ -13,6 +13,7 @@ const reloadButton = document.querySelector('#reload-button');
 const copyTextButton = document.querySelector('#copy-text-button');
 const extractorForm = document.querySelector('#extractor-form');
 const extractorToggle = document.querySelector('#extractor-toggle');
+const submitButton = document.querySelector('#submit-button');
 
 // match script elements
 const matchCsvFileInput = document.querySelector('#match-csv-file');
@@ -86,6 +87,14 @@ function handleToggle(event) {
     circle.classList.toggle('right-0');
 }
 
+function toggleSubmit(element) {
+    element.classList.toggle('bg-gray-200');
+    element.classList.toggle('text-gray-400');
+    element.classList.toggle('cursor-not-allowed');
+    element.classList.toggle('bg-blue-200');
+    element.classList.toggle('text-blue-800');
+}
+
 //////////////////////
 // EXTRACTOR EVENTS //
 //////////////////////
@@ -97,16 +106,25 @@ csvFileInput.addEventListener('change', (e) => {
     fileName.innerHTML = csvFile.name;
     fileName.classList.toggle('hidden');
     if (types.includes(csvFile.type)) {
-        readFile(csvFile).then((result) => {
-            const itemSet = csvToItemSet(result);
-            createItemElements(itemSet);
-        });
-        dataSection.classList.toggle('hidden');
+        toggleSubmit(submitButton);
     } else {
         fileError.classList.toggle('hidden');
         fileError.innerHTML = `Error: Filetype is ${csvFile.type}, please upload a CSV file.`;
         reloadButton.classList.toggle('hidden');
         csvUploadLabel.classList.toggle('hidden');
+    }
+});
+
+// extractor submit button event
+submitButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    const csvFile = csvFileInput.files[0];
+    if (csvFile) {
+        readFile(csvFile).then((result) => {
+            const itemSet = csvToItemSet(result);
+            createItemElements(itemSet);
+        });
+        dataSection.classList.remove('hidden');
     }
 });
 
@@ -139,6 +157,9 @@ matchCsvFileInput.addEventListener('change', (e) => {
     matchCsvFileName.classList.toggle('hidden');
     if (types.includes(csvFile.type)) {
         readFile(csvFile).then((result) => {
+            if (matchHtmlFileInput.files[0]) {
+                toggleSubmit(matchSubmitButton);
+            }
             console.log('match CSV file loaded!');
         });
     } else {
@@ -157,6 +178,9 @@ matchHtmlFileInput.addEventListener('change', (e) => {
     matchHtmlFileName.classList.toggle('hidden');
     if (types.includes(htmlFile.type)) {
         readFile(htmlFile).then((result) => {
+            if (matchCsvFileInput.files[0]) {
+                toggleSubmit(matchSubmitButton);
+            }
             console.log('match HTML file loaded!');
         });
     } else {
@@ -185,6 +209,9 @@ extractorToggle.addEventListener('click', (e) => {
     extractorToggle.dataset.toggle === '0' && matchToggle.dataset.toggle === '0' && matchToggle.click();
     extractorToggle.dataset.toggle === '1' && matchToggle.dataset.toggle === '1' && matchToggle.click();
     extractorForm.classList.toggle('hidden');
+    if (!dataSection.classList.contains('hidden')) {
+        dataSection.classList.toggle('hidden');
+    }
 });
 
 matchToggle.addEventListener('click', (e) => {
@@ -193,4 +220,7 @@ matchToggle.addEventListener('click', (e) => {
     extractorToggle.dataset.toggle === '0' && matchToggle.dataset.toggle === '0' && extractorToggle.click();
     extractorToggle.dataset.toggle === '1' && matchToggle.dataset.toggle === '1' && extractorToggle.click();
     matchForm.classList.toggle('hidden');
+    if (!matchDataSection.classList.contains('hidden')) {
+        matchDataSection.classList.toggle('hidden');
+    }
 });
