@@ -6,6 +6,7 @@ const fileName = document.querySelector('#file-name');
 const fileError = document.querySelector('#file-error');
 const reloadButton = document.querySelector('#reload-button');
 const copyTextButton = document.querySelector('#copy-text-button');
+const extractorToggle = document.querySelector('#extractor-toggle');
 
 function readFile(file) {
     return new Promise((resolve, reject) => {
@@ -87,4 +88,13 @@ copyTextButton.addEventListener('click', (e) => {
     selection.removeAllRanges();
     selection.addRange(range);
     document.execCommand('copy');
+});
+
+extractorToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log(e.target.children[0]);
+    e.target.classList.toggle('bg-blue-600');
+    e.target.classList.toggle('bg-gray-400');
+    const circle = e.target.children[0];
+    circle.classList.toggle('right-0');
 });
