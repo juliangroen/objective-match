@@ -8,40 +8,93 @@
     </head>
     <body class="bg-blue-400 p-4">
         <header class="container max-w-xl mx-auto">
+            <!-- script toggles -->
             <section class="flex flex-col bg-white rounded-lg p-4 pb-0 mb-4">
                 <div class="flex flex-row mb-4" id="extractor-container">
-                    <div class="relative bg-blue-600 rounded-full cursor-pointer h-6 w-12 mr-4" id="extractor-toggle">
+                    <div
+                        class="relative bg-blue-600 rounded-full cursor-pointer h-6 w-12 mr-4"
+                        id="extractor-toggle"
+                        data-toggle="1"
+                    >
                         <div
                             class="absolute right-0 bg-white rounded-full pointer-events-none h-4 w-4 m-1"
                             id="extractor-circle"
                         ></div>
                     </div>
-                    <div class="text-blue-800">Evidence Statement Number Extractor</div>
+                    <div class="text-blue-800">ES Number Extractor</div>
                 </div>
                 <div class="flex flex-row mb-4" id="match-container">
-                    <div class="relative bg-gray-400 rounded-full cursor-pointer h-6 w-12 mr-4" id="match-toggle">
+                    <div
+                        class="relative bg-gray-400 rounded-full cursor-pointer h-6 w-12 mr-4"
+                        id="match-toggle"
+                        data-toggle="0"
+                    >
                         <div
                             class="absolute bg-white rounded-full pointer-events-none h-4 w-4 m-1"
                             id="match-circle"
                         ></div>
                     </div>
-                    <div class="text-blue-800">Match Evidence Statement Number to Objective Statement</div>
+                    <div class="text-blue-800">Match ES Number to Statement</div>
                 </div>
             </section>
-            <form class="bg-white rounded-lg flex flex-col p-4 pb-0 mb-4">
+            <!-- / script toggles -->
+
+            <!-- file upload forms -->
+
+            <!-- extractor form -->
+            <form class="bg-white rounded-lg flex flex-col p-4 pb-0 mb-4" id="extractor-form">
                 <label
                     class="bg-blue-800 text-gray-100 rounded-lg text-lg text-center cursor-pointer p-2 mb-4"
                     for="csv-file"
                     id="csv-upload-label"
                     >Upload a CSV File</label
                 >
-                <input class="hidden" type="file" id="csv-file" />
+                <input class="hidden" type="file" id="csv-file" accept="text/csv" />
                 <div class="hidden text-green-600 text-center mb-4" id="file-name"></div>
                 <div class="hidden text-red-600 text-center mb-4" id="file-error"></div>
                 <button class="hidden bg-blue-800 text-gray-100 rounded-lg p-4 mb-4" id="reload-button">
                     Reload Page
                 </button>
             </form>
+            <!-- / extractor form -->
+
+            <!-- matcher form -->
+            <form class="hidden bg-white rounded-lg flex flex-col p-4 pb-0 mb-4" id="match-form">
+                <!-- csv -->
+                <div class="flex flex-col" id="match-csv">
+                    <label
+                        class="bg-blue-800 text-gray-100 rounded-lg text-lg text-center cursor-pointer p-2 mb-4"
+                        for="match-csv-file"
+                        id="match-csv-upload-label"
+                        >Upload a CSV File</label
+                    >
+                    <input class="hidden" type="file" id="match-csv-file" accept="text/csv" />
+                    <div class="hidden text-green-600 text-center mb-4" id="match-csv-file-name"></div>
+                    <div class="hidden text-red-600 text-center mb-4" id="match-csv-file-error"></div>
+                </div>
+                <!-- / csv -->
+
+                <!-- html -->
+                <div class="flex flex-col" id="match-html">
+                    <label
+                        class="bg-blue-800 text-gray-100 rounded-lg text-lg text-center cursor-pointer p-2 mb-4"
+                        for="match-html-file"
+                        id="match-html-upload-label"
+                        >Upload a HTML File</label
+                    >
+                    <input class="hidden" type="file" id="match-html-file" accept="text/html" />
+                    <div class="hidden text-green-600 text-center mb-4" id="match-html-file-name"></div>
+                    <div class="hidden text-red-600 text-center mb-4" id="match-html-file-error"></div>
+                </div>
+                <!-- / html -->
+
+                <button class="hidden bg-blue-800 text-gray-100 rounded-lg p-4 mb-4" id="match-reload-button">
+                    Reload Page
+                </button>
+            </form>
+            <!-- / matcher form -->
+
+            <!-- / file upload forms -->
         </header>
         <section class="hidden container max-w-xl bg-white rounded-lg mx-auto p-4" id="data-section">
             <header>

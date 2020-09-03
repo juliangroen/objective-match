@@ -6,7 +6,10 @@ const fileName = document.querySelector('#file-name');
 const fileError = document.querySelector('#file-error');
 const reloadButton = document.querySelector('#reload-button');
 const copyTextButton = document.querySelector('#copy-text-button');
+const extractorForm = document.querySelector('#extractor-form');
 const extractorToggle = document.querySelector('#extractor-toggle');
+const matchForm = document.querySelector('#match-form');
+const matchToggle = document.querySelector('#match-toggle');
 
 function readFile(file) {
     return new Promise((resolve, reject) => {
@@ -75,6 +78,15 @@ csvFileInput.addEventListener('change', (e) => {
     }
 });
 
+function handleToggle(event) {
+    const toggle = event.target;
+    const circle = event.target.children[0];
+    toggle.classList.toggle('bg-blue-600');
+    toggle.classList.toggle('bg-gray-400');
+    toggle.dataset.toggle === '0' ? (toggle.dataset.toggle = '1') : (toggle.dataset.toggle = '0');
+    circle.classList.toggle('right-0');
+}
+
 reloadButton.addEventListener('click', (e) => {
     e.preventDefault();
     window.location.reload(true);
@@ -92,9 +104,16 @@ copyTextButton.addEventListener('click', (e) => {
 
 extractorToggle.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log(e.target.children[0]);
-    e.target.classList.toggle('bg-blue-600');
-    e.target.classList.toggle('bg-gray-400');
-    const circle = e.target.children[0];
-    circle.classList.toggle('right-0');
+    handleToggle(e);
+    extractorToggle.dataset.toggle === '0' && matchToggle.dataset.toggle === '0' && matchToggle.click();
+    extractorToggle.dataset.toggle === '1' && matchToggle.dataset.toggle === '1' && matchToggle.click();
+    extractorForm.classList.toggle('hidden');
+});
+
+matchToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    handleToggle(e);
+    extractorToggle.dataset.toggle === '0' && matchToggle.dataset.toggle === '0' && extractorToggle.click();
+    extractorToggle.dataset.toggle === '1' && matchToggle.dataset.toggle === '1' && extractorToggle.click();
+    matchForm.classList.toggle('hidden');
 });
